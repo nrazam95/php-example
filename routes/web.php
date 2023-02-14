@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostPublicController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,20 @@ Route::group(['prefix' => 'posts'], function () {
 Route::group(['prefix' => 'post-publics'], function () {
     Route::get('/', [PostPublicController::class, 'index'])->name('post-publics.index');
     Route::get('/{post}', [PostPublicController::class, 'show'])->name('post-publics.show');
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
+Route::group(['prefix' => 'manage-files', 'middleware' => ['web', 'auth']], function () {
+    Route::get('/', [App\Http\Controllers\FileManagerController::class, 'index'])->name('file-managers.index');
+    Route::get('/create', [App\Http\Controllers\FileManagerController::class, 'create'])->name('file-managers.create');
+    Route::post('/', [App\Http\Controllers\FileManagerController::class, 'store'])->name('file-managers.store');
+    Route::get('/get-files', [App\Http\Controllers\FileManagerController::class, 'files'])->name('file-managers.files');
+    Route::get('/{manageFile}/edit', [App\Http\Controllers\FileManagerController::class, 'edit'])->name('file-managers.edit');
+    Route::put('/{manageFile}', [App\Http\Controllers\FileManagerController::class, 'update'])->name('file-managers.update');
+    Route::delete('/{manageFile}', [App\Http\Controllers\FileManagerController::class, 'destroy'])->name('file-managers.destroy');
 });
 
 // Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

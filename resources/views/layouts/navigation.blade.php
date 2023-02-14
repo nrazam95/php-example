@@ -30,6 +30,13 @@
                         {{ __('Posts') }}
                     </x-nav-link>
                 </div>
+
+                <!-- Manage Files Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('file-managers.index')" :active="request()->routeIs('manage-files.index')">
+                        {{ __('Manage Files') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
